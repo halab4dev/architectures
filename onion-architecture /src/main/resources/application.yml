@@ -1,0 +1,42 @@
+server:
+    shutdown: graceful
+
+logging:
+    level:
+        org.springframework.web: ERROR
+        com.github.halab4dev: DEBUG
+    file:
+        name: ${LOG_FILE:log/base-project.log}
+
+spring:
+    profiles:
+        include:
+            - admin
+            - authentication
+            - file
+            - notification
+    datasource:
+        hikari:
+            connectionTimeout: 30000
+            maximumPoolSize: 10
+        url: ${DATABASE_URL}
+        username: ${DATABASE_USERNAME}
+        password: ${DATABASE_PASSWORD}
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: true
+
+application:
+    security:
+        jwt:
+            accessToken:
+                secret: ${JWT_ACCESS_TOKEN_SECRET}
+                ttlMillis: ${JWT_ACCESS_TOKEN_TTL_MILLIS}
+            refreshToken:
+                secret: ${JWT_REFRESH_TOKEN_SECRET}
+                ttlMillis: ${JWT_REFRESH_TOKEN_TTL_MILLIS}
